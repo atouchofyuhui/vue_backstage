@@ -95,7 +95,7 @@
         </span>
       </el-dialog>
       <!-- 分配权限 -->
-      <el-dialog title="提示" :visible.sync="setRoleDialogVisible" 
+      <el-dialog title="提示" :visible.sync="setRoleDialogVisible"
       @close="setRoleDialogClosed"
       width="50%">
         <div>
