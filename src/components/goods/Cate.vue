@@ -49,7 +49,19 @@
         <!-- 添加分类对话框底部 -->
         <span slot="footer" class="dialog-footer">
           <el-button @click="addCateDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="addCate"
+          <el-button type="primary" @click="addCate">确 定</el-button>
+        </span>
+      </el-dialog>
+      <!-- 编辑分类的对话框 -->
+      <el-dialog
+        title="编辑"
+        :visible.sync="editDialogVisible"
+        width="50%"
+      >
+        <span>这是一段信息</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="editDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="editDialogVisible = false"
             >确 定</el-button
           >
         </span>
@@ -83,11 +95,11 @@
           <el-tag type="warning" v-else>三级</el-tag>
         </template>
         <!-- 操作 -->
-        <template slot="opt">
-          <el-button size="mini" type="primary"
+        <template slot="opt" slot-scope="scope">
+          <el-button size="mini" type="primary" @click="showEditCateForm"
             ><i class="el-icon-edit"></i>编辑</el-button
           >
-          <el-button size="mini" type="danger"
+          <el-button size="mini" type="danger" @click="deleteCateForm(scope.row.cat_id)"
             ><i class="el-icon-delete"></i> 删除</el-button
           >
         </template>
@@ -177,7 +189,9 @@ export default {
         children: 'children'
       },
       // 选中的父级分类id数组
-      selectKeys: []
+      selectKeys: [],
+      // 控制编辑分类对话框的显示与隐藏
+      editDialogVisible: false
     }
   },
   created () {
@@ -257,6 +271,30 @@ export default {
       this.selectKeys = []
       this.addCateForm.cat_level = 0
       this.addCateForm.cat_pid = 0
+    },
+    // 编辑分类
+    showEditCateForm () {
+      this.editDialogVisible = true
+    },
+    // 删除分类
+    // eslint-disable-next-line camelcase
+    async deleteCateForm (cat_id) {
+      // 弹框询问角色是否确认删除
+      const confirmResult = await this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if (confirmResult !== 'confirm') return this.$message.info('已经取消了删除')
+      // 发起删除角色的请求
+      // eslint-disable-next-line camelcase
+      const { data: res } = await this.$http.delete('categories/' + cat_id)
+      if (res.meta.status !== 200) return this.$message.error('删除角色失败')
+      // 提示角色删除成功
+      this.$message.success('删除角色成功')
+      // 更新角色列表
+      this.getCateList()
+      console.log(this.getCateList)
     }
   }
 }
