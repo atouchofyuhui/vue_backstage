@@ -8,7 +8,8 @@ import Rights from '../components/power/Rights'
 import Roles from '../components/power/Roles'
 import Cate from '../components/goods/Cate'
 import Params from '../components/goods/Params'
-import Goods from '../components/goods/Goods'
+import GoodsList from '../components/goods/GoodsList'
+import AddGoods from '../components/goods/AddGoods'
 import Orders from '../components/orders/Orders'
 import Reports from '../components/reports/Reports'
 
@@ -28,9 +29,10 @@ const routes = [
       { path: '/roles', component: Roles },
       { path: '/categories', component: Cate },
       { path: '/params', component: Params },
-      { path: '/goods', component: Goods },
+      { path: '/goods', component: GoodsList },
       { path: '/orders', component: Orders },
-      { path: '/reports', component: Reports }
+      { path: '/reports', component: Reports },
+      { path: '/addGoods', component: AddGoods }
     ]
   }
 ]
