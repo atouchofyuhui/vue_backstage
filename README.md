@@ -1,4 +1,4 @@
-# vue_elm
+# vue_backstage
 
 ## Project setup
 ```
